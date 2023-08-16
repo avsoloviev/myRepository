@@ -8,14 +8,68 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+    @State private var selection = 0
+    init() {
+    let tab = UITabBarAppearance()
+        tab.backgroundColor = UIColor.white
+        if #available(iOS 15.0, *) {
+            UITabBar.appearance().scrollEdgeAppearance = tab
+        } 
+            UITabBar.appearance().standardAppearance = tab
+            let nav = UINavigationBarAppearance()
+        nav.backgroundColor = UIColor.white
+        UINavigationBar.appearance().scrollEdgeAppearance = nav
+        UINavigationBar.appearance().standardAppearance = nav
         }
-        .padding()
+
+    
+    var mainTab: some View {
+        MainView()
+    }
+    var catalogTab: some View {
+        CatalogView()
+    }
+    var basketTab: some View {
+        BasketView()
+    }
+    var accountTab: some View {
+        AccountView()
+    }
+
+
+    var body: some View {
+ 
+        TabView(selection: $selection){
+
+            mainTab.tabItem {
+                Label("Главная", image:"Spar")
+            }
+            .tag(0)
+            catalogTab.tabItem {
+                if #available(iOS 15.0, *) {
+                    Label("Каталог", systemImage: "square.grid.2x2").environment(\.symbolVariants, .none)
+                }else{
+                    Label("Каталог", systemImage: "square.grid.2x2")
+                }
+            }
+            .tag(1)
+            basketTab.tabItem {
+                if #available(iOS 15.0, *) {
+                    Label("Корзина", systemImage: "cart").environment(\.symbolVariants, .none)
+                }else{
+                    Label("Корзина", systemImage: "cart")
+                }
+            }
+            .tag(2)
+            accountTab.tabItem {
+                if #available(iOS 15.0, *) {
+                    Label("Профиль", systemImage: "person").environment(\.symbolVariants, .none)
+                }else{
+                    Label("Профиль", systemImage: "person")
+                }
+            }
+            .tag(3)
+        }
     }
 }
 
